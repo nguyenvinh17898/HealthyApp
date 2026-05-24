@@ -1,0 +1,789 @@
+﻿<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chọn KTV</title>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            color: #333;
+            background: #fff;
+        }
+
+        .top-bar {
+            background: #8848d8;
+            color: #fff;
+            height: 52px;
+            display: flex;
+            align-items: center;
+        }
+
+        .container {
+            width: 1320px;
+            max-width: 90%;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .contact-info {
+            display: flex;
+            gap: 26px;
+            font-size: 16px;
+        }
+
+        .contact-info span {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .contact-info i {
+            color: #ff4ba0;
+        }
+
+        .socials {
+            display: flex;
+            gap: 14px;
+        }
+
+        .socials a {
+            width: 32px;
+            height: 32px;
+            border: 1px solid #fff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #ff4ba0;
+            text-decoration: none;
+        }
+
+        .main-header {
+            height: 104px;
+            background: #fff;
+            display: flex;
+            align-items: center;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+        }
+
+        .logo {
+            text-decoration: none;
+            display: flex;
+            flex-direction: column;
+            line-height: 1;
+        }
+
+        .logo-main {
+            font-size: 58px;
+            font-family: Georgia, serif;
+            font-weight: bold;
+            color: #ff4ba0;
+        }
+
+        .logo-sub {
+            font-size: 13px;
+            letter-spacing: 3px;
+            color: #8848d8;
+            text-transform: uppercase;
+            margin-top: 5px;
+        }
+
+        .nav {
+            display: flex;
+            align-items: center;
+            gap: 34px;
+        }
+
+        .nav a {
+            text-decoration: none;
+            color: #555;
+            font-size: 16px;
+        }
+
+        .nav a:hover,
+        .nav a.active {
+            color: #ff4097;
+        }
+
+        .book-btn {
+            padding: 18px 30px;
+            border-radius: 40px;
+            border: none;
+            background: #ff4097;
+            color: #fff;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .ktv-section {
+            padding: 90px 0 110px;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 55px;
+        }
+
+        .section-title span {
+            color: #ff4097;
+            font-size: 24px;
+        }
+
+        .section-title h1 {
+            margin-top: 20px;
+            font-family: Georgia, serif;
+            font-size: 62px;
+            color: #151515;
+        }
+
+        .selected-box strong {
+            color: #ff4097;
+        }
+
+        .ktv-list {
+            width: 1320px;
+            max-width: 90%;
+            margin: 0 auto;
+
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 34px 24px;
+        }
+
+        .ktv-card img {
+            width: 100%;
+            height: 320px;
+            object-fit: cover;
+            border-radius: 8px;
+            display: block;
+        }
+
+        .ktv-card {
+            position: relative;
+        }
+
+        .ktv-overlay {
+            position: absolute;
+            inset: 0;
+
+            background: rgba(0, 0, 0, 0.45);
+
+            border-radius: 8px;
+
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+
+            opacity: 0;
+            transition: 0.35s ease;
+        }
+
+        .ktv-card:hover .ktv-overlay {
+            opacity: 1;
+        }
+
+        .ktv-overlay h3 {
+            color: #fff;
+            font-family: Georgia, serif;
+            font-size: 34px;
+            margin-bottom: 10px;
+        }
+
+        .ktv-overlay p {
+            color: #fff;
+            margin-bottom: 20px;
+            font-size: 16px;
+        }
+
+        .choose-btn {
+            padding: 14px 34px;
+            border: none;
+            border-radius: 35px;
+            background: #ff4097;
+            color: #fff;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .choose-btn:hover {
+            background: #8848d8;
+        }
+
+        .ktv-info-bottom {
+            padding-top: 14px;
+        }
+
+        .ktv-info-bottom h4 {
+            font-size: 18px;
+            line-height: 1.5;
+            color: #111;
+            margin-bottom: 8px;
+        }
+
+        .ktv-info-bottom span {
+            color: red;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        @media (max-width: 1200px) {
+            .ktv-list {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
+
+        @media (max-width: 900px) {
+            .ktv-list {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 600px) {
+            .ktv-list {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .ktv-info h3 {
+            font-family: Georgia, serif;
+            font-size: 32px;
+            margin-bottom: 12px;
+            color: #111;
+        }
+
+        .ktv-info p {
+            font-size: 17px;
+            color: #607080;
+            line-height: 1.6;
+            margin-bottom: 10px;
+        }
+
+        .ktv-meta {
+            display: flex;
+            gap: 18px;
+            flex-wrap: wrap;
+            color: #ff4097;
+            font-weight: bold;
+        }
+
+        .choose-btn {
+            padding: 14px 34px;
+            border: none;
+            border-radius: 35px;
+            background: #ff4097;
+            color: #fff;
+            font-weight: bold;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .booking-modal {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.55);
+            z-index: 99999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: 0.3s ease;
+        }
+
+        .booking-modal.show {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .booking-box {
+            width: 625px;
+            max-width: 92%;
+            background: #a53067;
+            border-radius: 8px;
+            padding: 48px;
+            position: relative;
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 16px;
+            right: 18px;
+            width: 36px;
+            height: 36px;
+            border: none;
+            border-radius: 50%;
+            background: #ff4097;
+            color: #fff;
+            font-size: 24px;
+            cursor: pointer;
+        }
+
+        .booking-box>span {
+            color: #ff55a5;
+            font-size: 24px;
+        }
+
+        .booking-box h2 {
+            color: #fff;
+            font-family: Georgia, serif;
+            font-size: 48px;
+            margin: 22px 0;
+        }
+
+        .selected-service-info {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
+            margin-bottom: 18px;
+        }
+
+        .selected-service-info div {
+            border: 1px solid rgba(255, 255, 255, 0.85);
+            border-radius: 8px;
+            padding: 12px;
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .selected-service-info span {
+            display: block;
+            color: #ff8fc4;
+            font-size: 13px;
+            margin-bottom: 6px;
+        }
+
+        .selected-service-info strong {
+            color: #fff;
+            font-size: 14px;
+        }
+
+        .form-row {
+            display: flex;
+            gap: 18px;
+            margin-bottom: 16px;
+        }
+
+        .booking-box input,
+        .booking-box textarea {
+            width: 100%;
+            padding: 16px 12px;
+            background: transparent;
+            border: 1px solid #fff;
+            border-radius: 8px;
+            color: #fff;
+            font-size: 16px;
+        }
+
+        .booking-box textarea {
+            height: 120px;
+            resize: none;
+        }
+
+        .booking-box button[type="submit"] {
+            width: 100%;
+            padding: 18px;
+            border: none;
+            border-radius: 8px;
+            background: #ff4097;
+            color: #fff;
+            font-weight: bold;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .footer {
+            background: #181619;
+            color: #fff;
+            padding: 45px 0;
+            text-align: center;
+        }
+
+        .footer span {
+            color: #ff4097;
+        }
+
+        @media (max-width: 900px) {
+            .ktv-card {
+                grid-template-columns: 1fr;
+            }
+
+            .selected-box,
+            .selected-service-info,
+            .form-row {
+                grid-template-columns: 1fr;
+                flex-direction: column;
+            }
+        }
+
+        .booking-box select {
+            width: 100%;
+            height: 56px;
+
+            padding: 0 18px;
+
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.9);
+            border-radius: 8px;
+
+            color: #fff;
+            font-size: 16px;
+
+            outline: none;
+            cursor: pointer;
+
+            transition: 0.3s;
+        }
+
+        .booking-box select:hover {
+            border-color: #ff8fc4;
+        }
+
+        .booking-box select:focus {
+            border-color: #ff4097;
+            box-shadow: 0 0 0 3px rgba(255, 64, 151, 0.2);
+        }
+
+        .booking-box select option {
+            background: #a53067;
+            color: #fff;
+        }
+
+        .booking-box input[type="datetime-local"] {
+            width: 100%;
+            height: 56px;
+
+            padding: 0 18px;
+
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.9);
+            border-radius: 8px;
+
+            color: #fff;
+            font-size: 16px;
+
+            outline: none;
+
+            transition: 0.3s;
+        }
+
+        .booking-box input[type="datetime-local"]:focus {
+            border-color: #ff4097;
+            box-shadow: 0 0 0 3px rgba(255, 64, 151, 0.2);
+        }
+
+        .booking-box input[type="datetime-local"]::-webkit-calendar-picker-indicator {
+            filter: invert(1);
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="top-bar">
+        <div class="container">
+            <div class="contact-info">
+                <span><i class="fa-solid fa-location-dot"></i> Find A Location</span>
+                <span><i class="fa-solid fa-phone"></i> +01234567890</span>
+                <span><i class="fa-solid fa-envelope"></i> Example@gmail.com</span>
+            </div>
+
+            <div class="socials">
+                <a href="#"><i class="fa-brands fa-facebook-f"></i></a>
+                <a href="#"><i class="fa-brands fa-twitter"></i></a>
+                <a href="#"><i class="fa-brands fa-instagram"></i></a>
+                <a href="#"><i class="fa-brands fa-linkedin-in"></i></a>
+            </div>
+        </div>
+    </div>
+
+    <header class="main-header">
+        <div class="container">
+            <a href="index.html" class="logo">
+                <span class="logo-main">Massage</span>
+                <span class="logo-sub">Massage at home</span>
+            </a>
+
+            <nav class="nav">
+                <a href="index.html">Home</a>
+                <a href="#">About</a>
+                <a href="#" class="active">KTV</a>
+                <a href="#">Contact Us</a>
+            </nav>
+
+            <button class="book-btn" id="openBookingModal">Book Appointment</button>
+        </div>
+    </header>
+
+    <section class="ktv-section">
+        <div class="section-title">
+            <span>CHOOSE STAFF</span>
+            <h1>Chọn KTV Phục Vụ</h1>
+        </div>
+
+        <div class="ktv-list">
+
+            <div class="ktv-card" data-ktv="Ngọc Anh">
+                <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=500&auto=format&fit=crop">
+
+                <div class="ktv-overlay">
+                    <h3>Ngọc Anh</h3>
+                    <p>⭐ 4.9 • 5 năm kinh nghiệm</p>
+                    <button class="choose-btn">Chọn</button>
+                </div>
+
+                <div class="ktv-info-bottom">
+                    <h4>Số 640: MASSAGE TẠI NHÀ ĐÀ NẴNG</h4>
+                    <span>500.000đ</span>
+                </div>
+            </div>
+
+            <div class="ktv-card" data-ktv="Thanh Trúc">
+                <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?q=80&w=500&auto=format&fit=crop">
+
+                <div class="ktv-overlay">
+                    <h3>Thanh Trúc</h3>
+                    <p>⭐ 4.8 • 4 năm kinh nghiệm</p>
+                    <button class="choose-btn">Chọn</button>
+                </div>
+
+                <div class="ktv-info-bottom">
+                    <h4>Số 628: MASSAGE TẠI NHÀ ĐÀ NẴNG</h4>
+                    <span>500.000đ</span>
+                </div>
+            </div>
+
+            <div class="ktv-card" data-ktv="Minh Thư">
+                <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=500&auto=format&fit=crop">
+
+                <div class="ktv-overlay">
+                    <h3>Minh Thư</h3>
+                    <p>⭐ 5.0 • 6 năm kinh nghiệm</p>
+                    <button class="choose-btn">Chọn</button>
+                </div>
+
+                <div class="ktv-info-bottom">
+                    <h4>Số 618: MASSAGE TẠI NHÀ ĐÀ NẴNG</h4>
+                    <span>500.000đ</span>
+                </div>
+            </div>
+
+            <div class="ktv-card" data-ktv="Kim Ngân">
+                <img src="https://images.unsplash.com/photo-1488426862026-3ee34a7d66df?q=80&w=500&auto=format&fit=crop">
+
+                <div class="ktv-overlay">
+                    <h3>Kim Ngân</h3>
+                    <p>⭐ 4.7 • 3 năm kinh nghiệm</p>
+                    <button class="choose-btn">Chọn</button>
+                </div>
+
+                <div class="ktv-info-bottom">
+                    <h4>Số 614: MASSAGE TẠI NHÀ ĐÀ NẴNG</h4>
+                    <span>500.000đ</span>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <footer class="footer">
+        <p>© <span>Your Site Name</span>, All right reserved.</p>
+    </footer>
+
+    <div class="booking-modal" id="bookingModal">
+        <div class="booking-box">
+            <button class="close-modal" id="closeBookingModal">×</button>
+
+            <span>GET IN TOUCH</span>
+            <h2>Get Appointment</h2>
+
+            <form>
+                <div class="selected-service-info">
+                    <div>
+                        <span>Dịch vụ</span>
+                        <strong id="modalServiceName">---</strong>
+                    </div>
+                    <div>
+                        <span>Thời gian</span>
+                        <strong id="modalDuration">---</strong>
+                    </div>
+                    <div>
+                        <span>Giá tiền</span>
+                        <strong id="modalPrice">---</strong>
+                    </div>
+                    <div>
+                        <span>KTV</span>
+                        <strong id="modalKtv">---</strong>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <input type="text" placeholder="Full Name">
+                    <input type="tel" placeholder="Phone Number">
+                </div>
+
+                <div class="form-row">
+                    <select id="modalServiceSelect">
+                        <option>Massage dầu</option>
+                        <option>Massage body</option>
+                        <option>Massage foot</option>
+                        <option>Dịch vụ khác</option>
+                    </select>
+
+                    <select id="modalDurationSelect">
+                        <option value="400000000">60 phút</option>
+                        <option value="500000000">90 phút</option>
+                        <option value="600000000">120 phút</option>
+                    </select>
+                </div>
+
+                <div class="form-row">
+                    <input type="datetime-local">
+                </div>
+
+                <textarea placeholder="Note"></textarea>
+
+                <button type="submit">SUBMIT NOW</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        const params = new URLSearchParams(window.location.search);
+
+        const service = params.get("service") || "Chưa chọn";
+        const duration = params.get("duration") || "Chưa chọn";
+        const price = params.get("price") || "0";
+
+        function formatVND(value) {
+            return Number(value).toLocaleString("vi-VN") + "đ";
+        }
+
+        const bookingModal = document.getElementById("bookingModal");
+        const closeBookingModal = document.getElementById("closeBookingModal");
+        const openBookingModal = document.getElementById("openBookingModal");
+
+        const modalServiceName = document.getElementById("modalServiceName");
+        const modalDuration = document.getElementById("modalDuration");
+        const modalPrice = document.getElementById("modalPrice");
+        const modalKtv = document.getElementById("modalKtv");
+        const modalServiceSelect = document.getElementById("modalServiceSelect");
+        const modalDurationSelect = document.getElementById("modalDurationSelect");
+
+        const defaultDurationOptions = [...modalDurationSelect.options].map(option => ({
+            value: option.value,
+            text: option.textContent
+        }));
+        const serviceDurationOptions = {
+            "Dịch vụ khác": [
+                { value: "900000", text: "60 phút" },
+                { value: "1100000", text: "90 phút" },
+                { value: "1300000", text: "120 phút" }
+            ]
+        };
+
+        function buildDurationOptions(items) {
+            modalDurationSelect.innerHTML = "";
+
+            items.forEach(item => {
+                const option = document.createElement("option");
+                option.value = item.value;
+                option.textContent = item.text;
+                modalDurationSelect.appendChild(option);
+            });
+        }
+
+        function buildDurationOptionsForService(serviceName) {
+            buildDurationOptions(serviceDurationOptions[serviceName] || defaultDurationOptions);
+        }
+
+        function selectOption(select, value, text) {
+            const option = [...select.options].find(item =>
+                item.value === value || item.textContent.trim() === text
+            );
+
+            if (option) {
+                select.value = option.value;
+                return;
+            }
+
+            if (value || text) {
+                const newOption = document.createElement("option");
+                newOption.value = value || text;
+                newOption.textContent = text || value;
+                select.appendChild(newOption);
+                select.value = newOption.value;
+            }
+        }
+
+        function syncFormPulldowns() {
+            selectOption(modalServiceSelect, service, service);
+            buildDurationOptionsForService(modalServiceSelect.value);
+            selectOption(modalDurationSelect, price, duration);
+        }
+
+        function updateModalInfo() {
+            const selectedDuration = modalDurationSelect.options[modalDurationSelect.selectedIndex];
+
+            modalServiceName.textContent = modalServiceSelect.value;
+            modalDuration.textContent = selectedDuration ? selectedDuration.textContent : duration;
+            modalPrice.textContent = formatVND(modalDurationSelect.value || price);
+        }
+
+        function openForm(ktvName = "Chưa chọn") {
+            syncFormPulldowns();
+            updateModalInfo();
+            modalKtv.textContent = ktvName;
+
+            bookingModal.classList.add("show");
+        }
+
+        document.querySelectorAll(".choose-btn").forEach(button => {
+            button.addEventListener("click", function () {
+                const ktvName = this.closest(".ktv-card").dataset.ktv;
+                openForm(ktvName);
+            });
+        });
+
+        openBookingModal.addEventListener("click", function () {
+            window.location.href = "index.html#ourService";
+        });
+
+        modalServiceSelect.addEventListener("change", function () {
+            buildDurationOptionsForService(this.value);
+            updateModalInfo();
+        });
+        modalDurationSelect.addEventListener("change", updateModalInfo);
+
+        closeBookingModal.addEventListener("click", function () {
+            bookingModal.classList.remove("show");
+        });
+
+        bookingModal.addEventListener("click", function (e) {
+            if (e.target === bookingModal) {
+                bookingModal.classList.remove("show");
+            }
+        });
+    </script>
+
+</body>
+
+</html>
+
+
