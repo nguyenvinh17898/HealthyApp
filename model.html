@@ -613,7 +613,7 @@
             <span>GET IN TOUCH</span>
             <h2>Get Appointment</h2>
 
-            <form>
+            <form id="bookingForm">
                 <div class="selected-service-info">
                     <div>
                         <span>Dịch vụ</span>
@@ -634,8 +634,8 @@
                 </div>
 
                 <div class="form-row">
-                    <input type="text" placeholder="Full Name">
-                    <input type="tel" placeholder="Phone Number">
+                    <input id="fullName" type="text" placeholder="Full Name" required>
+                    <input id="phone" type="tel" placeholder="Phone Number" required>
                 </div>
 
                 <div class="form-row">
@@ -654,10 +654,10 @@
                 </div>
 
                 <div class="form-row">
-                    <input type="datetime-local">
+                    <input id="modalDateTime" type="datetime-local" required>
                 </div>
 
-                <textarea placeholder="Note"></textarea>
+                <textarea id="note" placeholder="Note"></textarea>
 
                 <button type="submit">SUBMIT NOW</button>
             </form>
@@ -780,10 +780,52 @@
                 bookingModal.classList.remove("show");
             }
         });
+
+        const bookingForm = document.getElementById("bookingForm");
+
+        bookingForm.addEventListener("submit", async function (e) {
+            e.preventDefault();
+
+            const submitButton = bookingForm.querySelector('button[type="submit"]');
+            submitButton.disabled = true;
+            submitButton.textContent = "SENDING...";
+
+            const data = {
+                fullName: document.getElementById("fullName").value.trim(),
+                phone: document.getElementById("phone").value.trim(),
+                service: modalServiceName.textContent,
+                duration: modalDuration.textContent,
+                price: modalPrice.textContent,
+                ktv: modalKtv.textContent,
+                dateTime: document.getElementById("modalDateTime").value,
+                note: document.getElementById("note").value.trim()
+            };
+
+            try {
+                const response = await fetch("/api/send-telegram", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(data)
+                });
+
+                if (!response.ok) {
+                    throw new Error("Send failed");
+                }
+
+                alert("Đặt lịch thành công!");
+                bookingForm.reset();
+                bookingModal.classList.remove("show");
+            } catch (error) {
+                alert("Gửi thất bại. Vui lòng thử lại!");
+            } finally {
+                submitButton.disabled = false;
+                submitButton.textContent = "SUBMIT NOW";
+            }
+        });
     </script>
 
 </body>
 
 </html>
-
-
